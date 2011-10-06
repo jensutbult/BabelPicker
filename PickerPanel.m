@@ -16,7 +16,6 @@
 				  backing:(NSBackingStoreType)bufferingType 
 					defer:(BOOL)flag
 {
-	NSLog(@"Panel Init");
 	if(self = [super initWithContentRect:contentRect 
 							   styleMask:NSBorderlessWindowMask
 								 backing:NSBackingStoreBuffered 
@@ -30,11 +29,32 @@
 	return self;
 }
 
-- (BOOL) canBecomeKeyWindow { return YES; }
-
-- (void)windowDidMove:(NSNotification *)window {
-	
-	NSLog(@"did move");
+- (BOOL) canBecomeKeyWindow { 
+    return YES; 
 }
+
+/*- (void)windowDidMove:(NSNotification *)window {
+	NSLog(@"Window did move: %@", window);
+}*/
+
+- (IBAction)toggleWindowOnTop:(id)sender {
+	if (self.level == NSNormalWindowLevel)
+		self.level = NSFloatingWindowLevel;
+	else
+		self.level = NSNormalWindowLevel;
+}
+
+
+#pragma mark - NSMenuValidation Protocol methods
+
+- (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem {
+	if([anItem action] == @selector(toggleWindowOnTop:)){
+		if (self.level == NSFloatingWindowLevel)
+			[(NSMenuItem*)anItem setState:NSOnState];
+		else [(NSMenuItem*)anItem setState:NSOffState];
+	}
+	return YES;
+}
+
 
 @end

@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PickerPanel : NSPanel {
+@interface PickerPanel : NSPanel
 
-}
+- (IBAction)toggleWindowOnTop:(id)sender;
 
 @end

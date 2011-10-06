@@ -8,7 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class BabelColorPickerAppDelegate;
+typedef enum ColorMode {
+	ColorModeRGB = 0, 
+	ColorModeHEX, 
+	ColorModeUIColor, 
+	ColorModeNSColor
+} ColorMode;
+
+typedef enum PreviewMode {
+	PreviewModeColor = 0,
+	PreviewModePixels
+} PreviewMode;
 
 struct pixel {
     unsigned char r, g, b, a;
@@ -18,11 +28,18 @@ struct pixel {
 	NSImage *backgroundImage;
 	NSImage *capturedImage;
 	NSColor *pickedColor;
-	BOOL showsImage;
+	ColorMode colorMode;
+	PreviewMode previewMode;
 }
 @property (assign) NSImage *capturedImage;
 @property (assign) NSColor *pickedColor;
+@property (readwrite) PreviewMode previewMode;
+
+- (IBAction)setMode:(id)sender;
+- (IBAction)changePreviewMode:(id)sender;
 
 - (void)createScreenShot;
+- (void)togglePreviewMode;
+- (void)copyColorToPasteboardFromRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 
 @end
